@@ -17,9 +17,7 @@ class UpdateUser:
 
 	repository: IUserRepositoryPort
 
-	async def __call__(
-		self, user_id: str, data: UpdateUserRequest
-	) -> BaseResponse[UserResponse]:
+	async def __call__(self, user_id: str, data: UpdateUserRequest) -> BaseResponse[UserResponse]:
 		try:
 			user = await self.repository.get_by_id(user_id)
 			if not user:

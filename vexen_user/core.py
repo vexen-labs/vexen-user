@@ -114,9 +114,7 @@ class VexenUser:
 			await conn.run_sync(Base.metadata.create_all)
 
 		# Initialize repositories
-		self._repository = user_repository_adapter.UserRepositoryAdapter(
-			self._session_factory
-		)
+		self._repository = user_repository_adapter.UserRepositoryAdapter(self._session_factory)
 
 	async def close(self) -> None:
 		"""Close database connections and clean up resources"""
