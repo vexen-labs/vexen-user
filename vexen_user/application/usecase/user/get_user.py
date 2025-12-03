@@ -28,7 +28,7 @@ class GetUser:
 				created_at=user.created_at,
 				updated_at=user.updated_at,
 				last_login=user.last_login,
-				metadata=user.metadata or {},
+				user_metadata=user.user_metadata or {},
 			)
 
 			return BaseResponse.ok(response)

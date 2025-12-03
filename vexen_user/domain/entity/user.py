@@ -20,7 +20,7 @@ class User:
 		created_at: Timestamp when user was created
 		updated_at: Timestamp when user was last updated
 		last_login: Timestamp of last login
-		metadata: Additional user metadata (department, phone, etc.)
+		user_metadata: Additional user metadata (department, phone, etc.)
 	"""
 
 	id: str | None
@@ -31,7 +31,7 @@ class User:
 	created_at: datetime = field(default_factory=datetime.now)
 	updated_at: datetime | None = None
 	last_login: datetime | None = None
-	metadata: dict | None = None
+	user_metadata: dict | None = None
 
 	def __post_init__(self):
 		"""Validation"""
@@ -41,8 +41,8 @@ class User:
 		if self.status not in ("active", "inactive"):
 			raise ValueError("Status must be 'active' or 'inactive'")
 
-		if self.metadata is None:
-			self.metadata = {}
+		if self.user_metadata is None:
+			self.user_metadata = {}
 
 	def is_active(self) -> bool:
 		"""Check if user is active"""

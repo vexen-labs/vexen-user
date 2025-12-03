@@ -30,8 +30,8 @@ class UpdateUser:
 				user.avatar = data.avatar
 			if data.status is not None:
 				user.status = data.status
-			if data.metadata is not None:
-				user.metadata = data.metadata
+			if data.user_metadata is not None:
+				user.user_metadata = data.user_metadata
 
 			user.updated_at = datetime.now()
 

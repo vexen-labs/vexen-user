@@ -46,10 +46,9 @@ class UserService:
 		# Convert PatchUserRequest to UpdateUserRequest
 		update_data = UpdateUserRequest(
 			name=data.name,
-			role_id=data.role_id,
 			avatar=data.avatar,
 			status=data.status,
-			metadata=data.metadata,
+			user_metadata=data.user_metadata,
 		)
 		return await self.usecases.update_user(user_id, update_data)
 

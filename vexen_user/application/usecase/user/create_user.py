@@ -36,7 +36,7 @@ class CreateUser:
 				avatar=data.avatar,
 				status="active",
 				created_at=datetime.now(),
-				metadata=data.metadata or {},
+				user_metadata=data.user_metadata or {},
 			)
 
 			# Save user

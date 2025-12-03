@@ -29,7 +29,7 @@ class UserExpandedResponse:
 	created_at: datetime
 	updated_at: datetime | None
 	last_login: datetime | None
-	metadata: dict
+	user_metadata: dict
 
 
 @dataclass
@@ -40,7 +40,7 @@ class CreateUserRequest:
 	name: str
 	password: str
 	avatar: str | None = None
-	metadata: dict | None = None
+	user_metadata: dict | None = None
 
 
 @dataclass
@@ -50,7 +50,7 @@ class UpdateUserRequest:
 	name: str | None = None
 	avatar: str | None = None
 	status: str | None = None
-	metadata: dict | None = None
+	user_metadata: dict | None = None
 
 
 @dataclass
@@ -60,7 +60,7 @@ class PatchUserRequest:
 	name: str | None = None
 	avatar: str | None = None
 	status: str | None = None
-	metadata: dict | None = None
+	user_metadata: dict | None = None
 
 
 @dataclass

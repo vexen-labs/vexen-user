@@ -25,4 +25,4 @@ class UserModel(Base):
 	)
 	updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 	last_login: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
-	metadata: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+	user_metadata: Mapped[dict | None] = mapped_column(JSON, nullable=True)

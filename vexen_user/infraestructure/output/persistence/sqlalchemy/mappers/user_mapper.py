@@ -21,7 +21,7 @@ class UserMapper:
 			created_at=model.created_at,
 			updated_at=model.updated_at,
 			last_login=model.last_login,
-			metadata=model.metadata or {},
+			user_metadata=model.user_metadata or {},
 		)
 
 	@staticmethod
@@ -36,7 +36,7 @@ class UserMapper:
 			created_at=entity.created_at,
 			updated_at=entity.updated_at,
 			last_login=entity.last_login,
-			metadata=entity.metadata,
+			user_metadata=entity.user_metadata,
 		)
 
 	@staticmethod
@@ -48,5 +48,5 @@ class UserMapper:
 		model.status = entity.status
 		model.updated_at = entity.updated_at
 		model.last_login = entity.last_login
-		model.metadata = entity.metadata
+		model.user_metadata = entity.user_metadata
 		return model
