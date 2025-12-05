@@ -39,7 +39,7 @@ class UpdateUser:
 			updated_user = await self.repository.save(user)
 
 			response = UserResponse(
-				id=updated_user.id,
+				id=str(updated_user.id),
 				email=updated_user.email,
 				name=updated_user.name,
 				avatar=updated_user.avatar,

@@ -1,5 +1,6 @@
 """SQLAlchemy User repository implementation."""
 
+import uuid
 from datetime import datetime, timedelta
 
 from sqlalchemy import func, or_, select
@@ -18,7 +19,13 @@ class UserRepository(IUserRepositoryPort):
 
 	async def get_by_id(self, user_id: str) -> User | None:
 		"""Get user by ID"""
-		stmt = select(UserModel).where(UserModel.id == user_id)
+		# Convert string to UUID for querying
+		try:
+			uuid_id = uuid.UUID(user_id)
+		except (ValueError, AttributeError):
+			return None
+
+		stmt = select(UserModel).where(UserModel.id == uuid_id)
 		result = await self.session.execute(stmt)
 		model = result.scalar_one_or_none()
 
@@ -52,10 +59,7 @@ class UserRepository(IUserRepositoryPort):
 				model = UserMapper.to_model(user)
 				self.session.add(model)
 		else:
-			# Create new - generate ID
-			import uuid
-
-			user.id = f"usr_{uuid.uuid4().hex[:12]}"
+			# Create new - the model will auto-generate UUID v7
 			model = UserMapper.to_model(user)
 			self.session.add(model)
 
@@ -66,7 +70,13 @@ class UserRepository(IUserRepositoryPort):
 
 	async def delete(self, user_id: str) -> None:
 		"""Delete user"""
-		stmt = select(UserModel).where(UserModel.id == user_id)
+		# Convert string to UUID for querying
+		try:
+			uuid_id = uuid.UUID(user_id)
+		except (ValueError, AttributeError):
+			return
+
+		stmt = select(UserModel).where(UserModel.id == uuid_id)
 		result = await self.session.execute(stmt)
 		model = result.scalar_one_or_none()
 

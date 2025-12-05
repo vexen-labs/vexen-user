@@ -20,7 +20,7 @@ class GetUser:
 				return BaseResponse.fail(f"User with id {user_id} not found")
 
 			response = UserExpandedResponse(
-				id=user.id,
+				id=str(user.id),
 				email=user.email,
 				name=user.name,
 				avatar=user.avatar,

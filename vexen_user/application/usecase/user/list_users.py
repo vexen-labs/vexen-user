@@ -31,7 +31,7 @@ class ListUsers:
 
 			response_data = [
 				UserResponse(
-					id=u.id,
+					id=str(u.id),
 					email=u.email,
 					name=u.name,
 					avatar=u.avatar,

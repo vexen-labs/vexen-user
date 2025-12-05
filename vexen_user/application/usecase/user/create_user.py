@@ -43,7 +43,7 @@ class CreateUser:
 			saved_user = await self.repository.save(user)
 
 			response = UserResponse(
-				id=saved_user.id,
+				id=str(saved_user.id),
 				email=saved_user.email,
 				name=saved_user.name,
 				avatar=saved_user.avatar,

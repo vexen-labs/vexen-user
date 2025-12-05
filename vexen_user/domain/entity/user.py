@@ -2,6 +2,7 @@
 User entity for the domain layer.
 """
 
+import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
 
@@ -12,7 +13,7 @@ class User:
 	User entity representing a system user.
 
 	Attributes:
-		id: Unique identifier (e.g., "usr_123456")
+		id: Unique identifier (UUID v7)
 		email: User's email address
 		name: User's full name
 		avatar: URL to user's avatar image
@@ -23,7 +24,7 @@ class User:
 		user_metadata: Additional user metadata (department, phone, etc.)
 	"""
 
-	id: str | None
+	id: uuid.UUID | None
 	email: str
 	name: str
 	avatar: str | None = None
