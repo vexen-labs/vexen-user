@@ -27,17 +27,23 @@ class UserMapper:
 	@staticmethod
 	def to_model(entity: User) -> UserModel:
 		"""Convert entity to model"""
-		return UserModel(
-			id=entity.id,
-			email=entity.email,
-			name=entity.name,
-			avatar=entity.avatar,
-			status=entity.status,
-			created_at=entity.created_at,
-			updated_at=entity.updated_at,
-			last_login=entity.last_login,
-			user_metadata=entity.user_metadata,
-		)
+		# Don't pass id if it's None - let the model generate UUID v7
+		model_data = {
+			"email": entity.email,
+			"name": entity.name,
+			"avatar": entity.avatar,
+			"status": entity.status,
+			"created_at": entity.created_at,
+			"updated_at": entity.updated_at,
+			"last_login": entity.last_login,
+			"user_metadata": entity.user_metadata,
+		}
+
+		# Only include id if it exists
+		if entity.id is not None:
+			model_data["id"] = entity.id
+
+		return UserModel(**model_data)
 
 	@staticmethod
 	def update_model_from_entity(model: UserModel, entity: User) -> UserModel:

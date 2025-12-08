@@ -5,7 +5,7 @@ from datetime import datetime
 
 from uuid6 import uuid7
 
-from sqlalchemy import JSON, DateTime, String, TypeDecorator, func
+from sqlalchemy import JSON, DateTime, String, TypeDecorator, event, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -21,7 +21,11 @@ class UUIDType(TypeDecorator):
 			return None
 		if isinstance(value, uuid.UUID):
 			return str(value)
-		return str(value)
+		# Try to convert string to UUID first to validate
+		try:
+			return str(uuid.UUID(str(value)))
+		except (ValueError, AttributeError):
+			return None
 
 	def process_result_value(self, value, dialect):
 		"""Convert string back to UUID when retrieving from database."""
@@ -29,7 +33,10 @@ class UUIDType(TypeDecorator):
 			return None
 		if isinstance(value, uuid.UUID):
 			return value
-		return uuid.UUID(value)
+		try:
+			return uuid.UUID(value)
+		except (ValueError, AttributeError, TypeError):
+			return None
 
 
 class Base(DeclarativeBase):
@@ -41,7 +48,7 @@ class UserModel(Base):
 
 	__tablename__ = "users"
 
-	id: Mapped[uuid.UUID] = mapped_column(UUIDType, primary_key=True, default=uuid7)
+	id: Mapped[uuid.UUID] = mapped_column(UUIDType, primary_key=True, nullable=False)
 	email: Mapped[str] = mapped_column(String, unique=True, nullable=False, index=True)
 	name: Mapped[str] = mapped_column(String, nullable=False)
 	avatar: Mapped[str | None] = mapped_column(String, nullable=True)
@@ -52,3 +59,11 @@ class UserModel(Base):
 	updated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 	last_login: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 	user_metadata: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+
+
+# Generate UUID v7 for new users before insert
+@event.listens_for(UserModel, "before_insert")
+def generate_uuid(mapper, connection, target):
+	"""Generate UUID v7 for new users if not provided."""
+	if target.id is None:
+		target.id = uuid7()
